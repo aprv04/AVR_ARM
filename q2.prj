@@ -27,10 +27,4 @@
 
 
 K1 VSS PD2 ; x: Buttons 0 - F. Optional type: MONOSTABLE(t_delay), LATCHED
-K2 VSS PD3
-
-D1 VDD PB1  ; x: Panel LEDs 1 - 8
-.plot V(PB1) ;
-.plot V(PD2)
-.plot V(PD3)
-
+D1 VDD PD4  ; x: Panel LEDs 1 - 8

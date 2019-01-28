@@ -26,6 +26,5 @@
 ; ------------------------------------------------------------
 
 
-D1 VDD PB1  ; x: Panel LEDs 1 - 8
-
-D2 VDD PB2 ; x: Panel LEDs 1 - 8
+X1  TTY(9600 8 0 0 1 0) PD0 PD1
+;X[inst_name]  TTY(baud_rate [n_bits] [parity] [odd_parity] [n_stop_bits] [rx_display_as]) node_tx node_rx
