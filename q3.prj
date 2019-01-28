@@ -6,8 +6,11 @@
 ; Micro + software running
 ; ------------------------------------------------------------
 .MICRO "ATmega8"
-.PROGRAM "q3.asm"
-.TARGET "q3.hex"
+.TOOLCHAIN "GCC"
+.GCCPATH   "C:\WinAVR"
+.GCCMAKE   AUTO
+.TARGET    "q3.hex"
+.SOURCE    "q3.c"
 
 .TRACE              ; Activate micro trace
 
@@ -22,5 +25,4 @@
 ; Define here the hardware around the micro
 ; ------------------------------------------------------------
 
-D1 VDD PB2  ; x: Panel LEDs 1 - 8
 

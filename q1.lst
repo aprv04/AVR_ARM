@@ -1,0 +1,187 @@
+   1               		.file	"q1.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  69               	.global	__vector_3
+  71               	__vector_3:
+   1:q1.c          **** // ***********************************************************
+   2:q1.c          **** // Project:
+   3:q1.c          **** // Author:
+   4:q1.c          **** // Module description:
+   5:q1.c          **** // ***********************************************************
+   6:q1.c          **** 
+   7:q1.c          **** #include <avr\io.h>              // Most basic include files
+   8:q1.c          **** #include <avr\interrupt.h>       // Add the necessary ones
+   9:q1.c          **** #include <avr\signal.h>          // here
+  10:q1.c          **** 
+  11:q1.c          **** // Define here the global static variables
+  12:q1.c          **** //
+  13:q1.c          **** int flag;
+  14:q1.c          **** 
+  15:q1.c          **** // Interrupt handler example for INT0
+  16:q1.c          **** //
+  17:q1.c          **** ISR(TIMER2_COMP_vect) {
+  72               	in r0,__SREG__
+  73               		push r0
+  74               		clr __zero_reg__
+  75 0000 1F92      		push r18
+  76 0002 0F92      		push r19
+  77 0004 0FB6      		push r24
+  78 0006 0F92      		push r25
+  79 0008 1124      		push r29
+  80 000a 2F93      		push r28
+  81 000c 3F93      		in r28,__SP_L__
+  82 000e 8F93      		in r29,__SP_H__
+  83 0010 9F93      	/* prologue: Signal */
+  84 0012 DF93      	/* frame size = 0 */
+  86 0016 CDB7      	.LM1:
+  87 0018 DEB7      		lds r24,flag
+  88               		lds r25,(flag)+1
+  89               		ldi r18,lo8(1)
+  18:q1.c          ****    flag^=1;
+  90               	/
+  91               	/* frame size = 0 */
+  93 001e 9091 0000 	.LM1:
+  94 0022 21E0      		lds r24,flag
+  95 0024 30E0      		lds r25,(flag)+1
+  96 0026 8227      		ldi r18,lo8(1)
+  97 0028 9327      		ldi r19,hi8(1)
+  98 002a 9093 0000 		eor r24,r18
+  99 002e 8093 0000 		eor r25,r19
+ 100               		sts (flag)+1,r25
+  19:q1.c          **** }
+ 101               	4,flag
+ 102               		lds r25,(flag)+1
+ 103 0032 CF91      		ldi r18,lo8(1)
+ 104 0034 DF91      		ldi r19,hi8(1)
+ 105 0036 9F91      		eor r24,r18
+ 106 0038 8F91      		eor r25,r19
+ 107 003a 3F91      		sts (flag)+1,r25
+ 108 003c 2F91      		sts flag,r24
+ 109 003e 0F90      	/* epilogue start */
+ 111 0042 0F90      	.LM2:
+ 112 0044 1F90      		pop r28
+ 113 0046 1895      		pop r29
+ 114               		pop r25
+ 115               		pop r24
+ 116               		pop r19
+ 117               		pop r18
+ 118               		pop r0
+ 119               		out __SREG__,r0
+  20:q1.c          **** 
+  21:q1.c          **** // It is recommended to use this coding style to
+  22:q1.c          **** // follow better the mixed C-assembly code in the
+  23:q1.c          **** // Program Memory window
+  24:q1.c          **** //
+  25:q1.c          **** //void my_function(void) {  // Put the open brace '{' here
+  26:q1.c          **** 
+  27:q1.c          ****   // asm("nop");          // Inline assembly example
+  28:q1.c          **** //}
+  29:q1.c          **** 
+  30:q1.c          **** // ***********************************************************
+  31:q1.c          **** // Main program
+  32:q1.c          **** //
+  33:q1.c          **** int main(void) {
+ 120               	BB1
+ 121               	.LM2:
+ 122               		pop r28
+ 123 0048 DF93      		pop r29
+ 124 004a CF93      		pop r25
+ 125 004c CDB7      		pop r24
+ 126 004e DEB7      		pop r19
+ 127               		pop r18
+ 128               		pop r0
+  34:q1.c          **** 	      DDRB=0x02;
+ 129               	n	68,0,19,.LM2-.LFBB1
+ 130               	.LM2:
+ 131 0050 E7E3      		pop r28
+ 132 0052 F0E0      		pop r29
+ 133 0054 82E0      		pop r25
+ 134 0056 8083      		pop r24
+  35:q1.c          **** 	     TCNT2=0;
+ 135               	4
+ 136               	/* epilogue start */
+ 138 005a F0E0      	.LM2:
+ 139 005c 1082      		pop r28
+  36:q1.c          **** 	     OCR2=156;
+ 140               		sts (flag)+1,r25
+ 141               		sts flag,r24
+ 142 005e E3E4      	/* epilogue start */
+ 144 0062 8CE9      	.LM2:
+ 145 0064 8083      		pop r28
+  37:q1.c          **** 	     TCCR2|=(1<<CS22)|(1<<WGM21);
+ 146               		sts (flag)+1,r25
+ 147               		sts flag,r24
+ 148 0066 A5E4      	/* epilogue start */
+ 150 006a E5E4      	.LM2:
+ 151 006c F0E0      		pop r28
+ 152 006e 8081      		pop r29
+ 153 0070 8C60      		pop r25
+ 154 0072 8C93      		pop r24
+  38:q1.c          **** 	     TIMSK|=(1<<OCIE2);
+ 155               	4
+ 156               	/* epilogue start */
+ 158 0076 B0E0      	.LM2:
+ 159 0078 E9E5      		pop r28
+ 160 007a F0E0      		pop r29
+ 161 007c 8081      		pop r25
+ 162 007e 8068      		pop r24
+ 163 0080 8C93      		pop r19
+  39:q1.c          **** 	     sei();
+ 164               	gue start */
+ 166               	.LM2:
+ 167               		pop r28
+ 168 0082 7894      		pop r29
+ 169               		pop r25
+ 170               		pop r24
+ 171               		pop r19
+  40:q1.c          **** 
+  41:q1.c          ****    while(1) {             // Infinite loop; define here the
+  42:q1.c          ****    	if(flag)
+ 172               	gue start */
+ 174 0084 8091 0000 	.LM2:
+ 175 0088 9091 0000 		pop r28
+ 176 008c 0097      		pop r29
+ 177 008e 01F0      		pop r25
+  43:q1.c          ****    		PORTB=0x55 ;
+ 178               	ts flag,r24
+ 179               	/* epilogue start */
+ 181 0092 F0E0      	.LM2:
+ 182 0094 85E5      		pop r28
+ 183 0096 8083      		pop r29
+ 184 0098 00C0      		pop r25
+ 185               		pop r24
+  44:q1.c          ****    	else
+  45:q1.c          ****    		PORTB=0xAA;
+ 186               	4
+ 187               	/* epilogue start */
+ 189 009c F0E0      	.LM2:
+ 190 009e 8AEA      		pop r28
+ 191 00a0 8083      		pop r29
+ 192 00a2 00C0      		pop r25
+ 193               		pop r24
+ 194               		pop r19
+ 195               		pop r18
+ 196               		pop r0
+ 197               		out __SREG__,r0
+ 198               		pop r0
+ 199               		pop __zero_reg__
+DEFINED SYMBOLS
+                            *ABS*:00000000 q1.c
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:2      *ABS*:0000003f __SREG__
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:3      *ABS*:0000003e __SP_H__
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:4      *ABS*:0000003d __SP_L__
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:5      *ABS*:00000034 __CCP__
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:6      *ABS*:00000000 __tmp_reg__
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:7      *ABS*:00000001 __zero_reg__
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:71     .text:00000000 __vector_3
+                            *COM*:00000002 flag
+C:\Users\user\AppData\Local\Temp/ccHBdMhh.s:119    .text:00000048 main
+
+UNDEFINED SYMBOLS
+__do_clear_bss
