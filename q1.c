@@ -30,28 +30,22 @@ void my_function(void) {  // Put the open brace '{' here
 // ***********************************************************
 // Main program
 //
-void uart_init(void)
-{
-	UBRRL=0x33;
-	UCSRB=(1<<TXEN) | (1<<RXEN);
-	UCSRC=(1<<UCSZ0) | (1<<UCSZ1) | (1<<URSEL);
-	
-}
-void uart_send(unsigned char c)
-{
-	while(!(UCSRA & (1<<UDRE)));
-	UDR=c;
-}
 int main(void) {
-     uart_init() ;
-     unsigned char c;
-   while(1) {             // Infinite loop; define here the
-     // my_function();      // system behaviour
-     while(!(UCSRA & (1<<RXC)));
-     c=UDR;
-     c+=1;
-     uart_send(c);
-   }
-    return 0;
+
+		DDRB=(1<<3) | (1<<5);
+		DDRD=0xFF;
+		SPCR=(1<<SPE) | (1<<MSTR) | (1<<SPR0);
+		while(1) {
+			SPDR='F';
+			while(!SPSR & (1<<SPIF));
+			
+			PORTD=SPDR;
+		}
+		return 0;
+
 }
+
+
+
+
 

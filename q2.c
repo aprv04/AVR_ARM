@@ -10,12 +10,15 @@
 
 // Define here the global static variables
 //
-volatile int flag;
+int My_global;
 
 // Interrupt handler example for INT0
 //
-ISR(INT0_vect) {
-        flag^=1;
+ISR(ADC_vect) {
+		 PORTB=ADCL;
+		 PORTD=ADCH;
+	 ADCSRA |= (1<<ADSC);
+
 }
 
 // It is recommended to use this coding style to
@@ -31,16 +34,18 @@ void my_function(void) {  // Put the open brace '{' here
 // Main program
 //
 int main(void) {
-		DDRD=0x10;
-		PORTD=0x04;
-      GICR=(1<<INT0);
-      sei();
+	DDRB=0xFF;
+	DDRD=0xFF;
+	DDRC=0x00;
+//	PORTC=0x01;
+	ADMUX = (1<<REFS0);
+	ADCSRA |=  (1<<ADPS1) | (1<<ADPS0);
+	ADCSRA |= (1<<ADIE) | (1<<ADSC) | (1<<ADEN);
+	
+	sei();	
+
    while(1) {             // Infinite loop; define here the
-     // my_function();      // system behaviour
-        if(flag)
-        		PORTD=0x04;
-        else
-        		PORTD=0x14;
+    // my_function();      // system behaviour
    }
 
 }

@@ -10,7 +10,7 @@
 .GCCPATH   "C:\WinAVR"
 .GCCMAKE   AUTO
 .TARGET    "q1.hex"
-.SOURCE    "q1.c"
+.SOURCE    "q1.c" 
 
 .TRACE              ; Activate micro trace
 
@@ -25,6 +25,3 @@
 ; Define here the hardware around the micro
 ; ------------------------------------------------------------
 
-
-X1  TTY(9600 8 0 0 1 0) PD0 PD1
-;X[inst_name]  TTY(baud_rate [n_bits] [parity] [odd_parity] [n_stop_bits] [rx_display_as]) node_tx node_rx
