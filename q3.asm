@@ -36,18 +36,35 @@ start:
    nop       ; cleanup RAM, etc.
    nop       ;
    nop       ;
-   ldi r16, 0x0a
-   ldi r17,0x00
-   ldi XL,0x60
-   ldi XH,0x00
+   ldi r21,LOW(RAMEND)
+   out SPL,r21
+   ldi r22,HIGH(RAMEND)
+   out SPH,r22
+;   sbi DDRB, PB2
+
 
 forever:
-   nop
-   nop       ; Infinite loop.
-   nop       ; Define your main system
-   nop       ; behaviour here
-   add r17,r16
-   dec r16
-   brne forever
-   st X,r17
+   sbi DDRB, PB2;OUT PB2,r16
+   rcall delay
+   cbi DDRB, PB2;OUT PB2,r17
+   rcall delay
+rjmp forever
+delay:
+			ldi r19,10
+loop1:
+			ldi r23,255
+loop2:
+			ldi r24,255
+loop3:
+		 	dec r24
+		 	brne loop3
+		 	dec r23
+		 	brne loop2
+		 	dec r19
+		 	brne loop1
+		 	ret
+
+;.org 0x400
+;mydata: .db "World PEACE"
+
 

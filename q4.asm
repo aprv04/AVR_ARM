@@ -36,26 +36,77 @@ start:
    nop       ; cleanup RAM, etc.
    nop       ;
    nop       ;
-   ldi r16, 0x05 ; r16 has number that has to be multiplied
-   mov r17,r16    ; r17 used for repeated addition
-   ldi r18,0x02   ; r18 holds how many times r16 is to be multiplied
-   ldi r20, 0xFF
-   ldi r21,0x00
-   mov r22,r20
+   ldi ZL,LOW(mydata<<1)
+   ldi ZH,HIGH(mydata<<1)
+   ldi XL,0x60
+   ldi XH,0x00
+   mov YL,XL
+   mov YH,XH
+   ldi r22,11
+   mov r23,r22
+   ldi r18,0
+   mov r24,r22
 forever:
-   nop
-   nop       ; Infinite loop.
-   nop       ; Define your main system
-   nop       ; behaviour here
-	add r16,r17  ;multiplication as a repeated addition
-	add r20,r22
-	brcs carry
-	new: dec r18     ;dec r18 after every addition
-	brne forever
-	rjmp end
-carry:
-	inc r21
-	rjmp new	
- end:
-     clr r18
+store:
+			lpm r16,Z+
+			st X, r16
+			inc r18
+			cpi r18, 8
+			breq next1
+			inc XL
+ret1:
+			dec r22
+			breq sorting
+			rjmp store
+next1:
+			ldi XL, 0x68
+			ldi XH, 0x00
+			rjmp ret1
+			
+			
+sorting:	
+		mov ZL,YL
+      mov ZH,YH
+     ldi r18, 0
+     ldi r22,11
+compare:
+			ld r16,Z
+forward:
+			ld r17,Y
+			cp r17,r16
+			brcs swapping
+swapret:
+			cpi YL,0x67
+			breq newY
+			inc YL
+ret2:
+			dec r22
+			breq updateZ
+ret4:
+			rjmp compare
+updateZ:
+			dec r24
+			breq end
+			mov r22,r24
+			sub YL, r24
+			cpi ZL, 0x67
+			breq newZ
+			inc ZL
+ret3:
+			rjmp ret4
+newY:
+			ldi YL,0x68
+			rjmp ret2
+newZ:
+			ldi ZL,0x68
+			rjmp ret3
+swapping:
+			st Z,r17
+			st Y,r16
+			rjmp swapret
+mydata:
+		.db 8,3,6,24,7,1,9,5,12,43,31	
+end:
+			nop
+
 

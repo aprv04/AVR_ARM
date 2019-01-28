@@ -1,4 +1,4 @@
-; ******************************************************
+; **********D********************************************
 ; BASIC .ASM template file for AVR
 ; ******************************************************
 
@@ -36,26 +36,34 @@ start:
    nop       ; cleanup RAM, etc.
    nop       ;
    nop       ;
-   ldi r16, 0x05 ; r16 has number that has to be multiplied
-   mov r17,r16    ; r17 used for repeated addition
-   ldi r18,0x02   ; r18 holds how many times r16 is to be multiplied
-   ldi r20, 0xFF
-   ldi r21,0x00
-   mov r22,r20
-forever:
-   nop
-   nop       ; Infinite loop.
-   nop       ; Define your main system
-   nop       ; behaviour here
-	add r16,r17  ;multiplication as a repeated addition
-	add r20,r22
-	brcs carry
-	new: dec r18     ;dec r18 after every addition
-	brne forever
-	rjmp end
-carry:
-	inc r21
-	rjmp new	
- end:
-     clr r18
 
+				LDI r16,low(RAMEND)
+				OUT SPL,r16
+				LDI r16,high(RAMEND)
+				OUT SPH,R16
+				
+				LDI r16,0x40
+				OUT DDRD,r16
+				
+repeat:
+ 			   LDI r16,0x55
+ 			   OUT DDRD,R16
+ 			   call delay
+ 			
+ 				LDI R16,0xaa
+ 				OUT DDRD,R16
+ 				call delay
+ 				rjmp repeat
+ 				
+delay:
+				LDI R17,10
+loop:			LDI R18,255
+loop1:		LDI R19,255 	
+loop2:		dec r19
+				brne loop2
+				dec r18
+				brne loop1
+				dec r17
+				brne loop
+				ret
+								

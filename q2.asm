@@ -36,26 +36,25 @@ start:
    nop       ; cleanup RAM, etc.
    nop       ;
    nop       ;
-   ldi r16, 0x05 ; r16 has number that has to be multiplied
-   mov r17,r16    ; r17 used for repeated addition
-   ldi r18,0x02   ; r18 holds how many times r16 is to be multiplied
-   ldi r20, 0xFF
-   ldi r21,0x00
-   mov r22,r20
+   ldi r16,4
+   ldi r17,2
+   ldi r18,0
+   ldi r19,0
+
 forever:
    nop
    nop       ; Infinite loop.
    nop       ; Define your main system
    nop       ; behaviour here
-	add r16,r17  ;multiplication as a repeated addition
-	add r20,r22
-	brcs carry
-	new: dec r18     ;dec r18 after every addition
-	brne forever
-	rjmp end
-carry:
-	inc r21
-	rjmp new	
- end:
-     clr r18
+   inc r19
+   add  r18,r17
+   cp r18,r16
+   breq end
+   brcc imperfect	
+
+rjmp forever
+imperfect:
+			dec r19
+end:    nop
+
 

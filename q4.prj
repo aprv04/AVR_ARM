@@ -6,8 +6,8 @@
 ; Micro + software running
 ; ------------------------------------------------------------
 .MICRO "ATmega8"
-.PROGRAM "q3.asm"
-.TARGET "q3.hex"
+.PROGRAM "q4.asm"
+.TARGET "q4.hex"
 
 .TRACE              ; Activate micro trace
 
@@ -22,5 +22,5 @@
 ; Define here the hardware around the micro
 ; ------------------------------------------------------------
 
-D1 VDD PB2  ; x: Panel LEDs 1 - 8
 
+  ; x: Buttons 0 - F. Optional type: MONOSTABLE(t_delay), LATCHED

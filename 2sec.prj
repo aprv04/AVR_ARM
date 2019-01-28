@@ -6,8 +6,8 @@
 ; Micro + software running
 ; ------------------------------------------------------------
 .MICRO "ATmega8"
-.PROGRAM "q3.asm"
-.TARGET "q3.hex"
+.PROGRAM "2sec.asm"
+.TARGET "2sec.hex"
 
 .TRACE              ; Activate micro trace
 
@@ -22,5 +22,5 @@
 ; Define here the hardware around the micro
 ; ------------------------------------------------------------
 
-D1 VDD PB2  ; x: Panel LEDs 1 - 8
 
+D1 VDD PD6 ; x: Panel LEDs 1 - 8

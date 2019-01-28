@@ -1,0 +1,17 @@
+Creating   '2sec.eep'
+Creating   '2sec.hex'
+Creating   '2sec.obj'
+Creating   '2sec.lis'
+Creating   '2sec.map'
+
+Assembling '2sec.asm'
+Including  'C:\VMLAB\include\m8def.inc'
+
+Program memory usage:
+Code             :   46 words
+Constants (dw/db):    0 words
+Unused           :    0 words
+Total            :   46 words
+
+Assembly complete with no errors.
+Deleting   '2sec.eep'
